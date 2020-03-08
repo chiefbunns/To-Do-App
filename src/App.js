@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
-    this.state={
-      newItem:"",
+    this.state = {
+      newItem: "",
       list: []
-    }
+    };
   }
 
-updateInput(key, value){
-  this.setState({
-    [key]:value
-  });
-}
+  updateInput(key, value) {
+    this.setState({
+      [key]: value
+    });
+  }
 
   addItem() {
     //create item with the unique ID
@@ -26,54 +26,54 @@ updateInput(key, value){
     //copy of current list items
     const list = [...this.state.list];
 
-    //add new item to list 
+    //add new item to list
     list.push(newItem);
 
     //update state with new list and reset newItem input
 
     this.setState({
       list,
-      NewItem:""
-    })
+      newItem: ""
+    });
   }
-    render() {
-      return (
-        <div className="App">
-          <div>
+
+  deleteItem(id) {
+    //copy current list of items
+    const list = [...this.state.list];
+
+    //filter out item being deleted
+    const updatedList = list.filter(item => item.id !== id);
+
+    this.setState({ list: updatedList });
+  }
+  render() {
+    return (
+      <div className="App">
+        <div>
           Add an Item...
-          <br/>
+          <br />
           <input
             type="text"
             placeholder="Type item here..."
             value={this.state.newItem}
             onChange={e => this.updateInput("newItem", e.target.value)}
           />
-          <button
-            onClick={() => this.addItem()}
-          >
-            Add
-          </button>
-          <br/>
+          <button onClick={() => this.addItem()}>Add</button>
+          <br />
           <ul>
             {this.state.list.map(item => {
-              return(
+              return (
                 <li key={item.id}>
                   {item.value}
-                  <button 
-                  onCLick={() => this.deleteItem(item.id)
-                  > 
-                  
-                  
-                  </button>
+                  <button onClick={() => this.deleteItem(item.id)}>X</button>
                 </li>
-              )
+              );
             })}
           </ul>
-          </div>
-          
         </div>
-      );
-    }
+      </div>
+    );
+  }
 }
 
 export default App;
